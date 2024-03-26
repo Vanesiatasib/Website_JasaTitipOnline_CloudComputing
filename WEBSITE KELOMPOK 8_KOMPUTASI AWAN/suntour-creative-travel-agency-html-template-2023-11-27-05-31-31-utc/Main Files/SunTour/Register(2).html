@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Upload image using JS</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="hero">
+      <div class="card">
+        <h1>Selamat datang jastipers</h1>
+        <h2>Upload Barang</h2>
+        <form id="uploadForm" action="" method="POST">
+          <table>
+            <tr>
+              <td>Nama barang:</td>
+              <td><input type="text" id="nama_barang" /></td>
+            </tr>
+            <tr>
+              <td>Harga:</td>
+              <td><input type="text" id="harga" /></td>
+            </tr>
+            <tr>
+              <td>Deskripsi produk:</td>
+              <td><input type="text" id="deskripsi_produk" /></td>
+            </tr>
+            <tr>
+              <td>Foto barang:</td>
+              <td>
+                <input
+                  type="file"
+                  id="foto_barang"
+                  accept="image/jpeg, image/png, image/jpg"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <input type="submit" id="simpan" value="Simpan" />
+                <a href="#" onclick="openCard()"></a>
+                <input type="reset" value="Reset" />
+              </td>
+            </tr>
+          </table>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      function openCard() {
+        var card = document.querySelector(".card");
+        card.style.display = "block";
+      }
+    </script>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        set,
+      } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js";
+
+      const firebaseConfig = {
+  apiKey: "AIzaSyBAl_oELiDIYXjVv3JndlA6T4kYM0MJATA",
+  authDomain: "ageless-period-418307.firebaseapp.com",
+  projectId: "ageless-period-418307",
+  storageBucket: "ageless-period-418307.appspot.com",
+  messagingSenderId: "399513625069",
+  appId: "1:399513625069:web:62f6ef0e539853c6de87e4",
+  measurementId: "G-H4GTM75TM0"
+};
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+
+      // Get ref to database services
+      const db = getDatabase(app);
+
+      document
+        .getElementById("uploadForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          set(
+            ref(
+              db,
+              "NamaBarang/" + document.getElementById("nama_barang").value
+            ),
+            {
+              NamaBarang: document.getElementById("nama_barang").value,
+              Harga: document.getElementById("harga").value,
+              DeskripsiProduk:
+                document.getElementById("deskripsi_produk").value,
+              FotoBarang: document.getElementById("foto_barang").value,
+            }
+          )
+            .then(() => {
+              alert("Berhasil disimpan!");
+            })
+            .catch((error) => {
+              console.error("Gagal menyimpan:", error);
+              alert("Gagal menyimpan data. Silakan coba lagi.");
+            });
+        });
+    </script>
+  </body>
+</html>

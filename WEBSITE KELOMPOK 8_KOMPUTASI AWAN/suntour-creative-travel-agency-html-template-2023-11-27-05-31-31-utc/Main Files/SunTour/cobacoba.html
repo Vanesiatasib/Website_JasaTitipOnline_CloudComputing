@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset=""utf-8>
+        <meta http-equip="X-UA-Competible" content="IE-edge">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    </head>
+    <body>
+        <div class="recom-item border">
+            <div class="recom-media">
+                <div class="pic">
+                    <img id="FotoBarang" src="" alt="FotoBarang" />
+                </div>
+                <div class="location">
+                    <i class="flaticon-suntour-map" id="Negara"></i>
+                </div>
+                <div class="Harga">
+                    <i id="Harga"></i>
+                </div>
+                <div class="Kota">
+                    <i id="Kota"></i>
+                </div>
+            </div>
+
+        </div>
+
+            <script>
+                function AddItem(NamaBarang,Harga,DeskripsiProduk,Kota,Negara,Tujuan,Open,Close,FotoBarang){
+                let trow=document.createElemenet("tr");
+                let td1=document.createElemenet("td");
+                let td2=document.createElemenet("td");
+                let td3=document.createElemenet("td");
+                let td4=document.createElemenet("td");
+                let td5=document.createElemenet("td");
+                let td16=document.createElemenet("td");
+
+            td1
+          }
+          </script>
+
+    </body>
+
+    <footer></footer>
+    <div id="scroll-top"><i class="fa fa-angle-up"></i></div>
+    <div class="login-popup"></div>
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js"></script>
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyCa3I4apiXBBEg8lHkOKUZJj5HJqfpqs3c",
+        authDomain: "tambahkanbarang.firebaseapp.com",
+        databaseURL: "https://tambahkanbarang-default-rtdb.firebaseio.com",
+        projectId: "tambahkanbarang",
+        storageBucket: "tambahkanbarang.appspot.com",
+        messagingSenderId: "349178081242",
+        appId: "1:349178081242:web:5fb7c93d0313288b5b1ae3",
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+
+      const database = firebase.database();
+      const ref = database.ref("NamaBarang");
+
+      ref.once("value", function (snapshot) {
+        snapshot.forEach(function (childSnapshot) {
+          const data = childSnapshot.val();
+          try {
+            document.getElementById("fotoProduk").src = data.FotoBarang;
+            document.getElementById("lokasi").textContent =
+              data.Kota + ", " + data.Negara;
+            document.getElementById("namaBarang").textContent = data.NamaBarang;
+            document.getElementById("harga").textContent = "Rp " + data.Harga;
+            document.getElementById("periode").textContent =
+              "Open Jastip " + data.Open + " - " + data.Close;
+          } catch (error) {
+            console.error("Error in displaying data:", error);
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

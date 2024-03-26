@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Upload image using JS</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="hero">
+      <div class="card">
+        <h1>Selamat datang jastipers</h1>
+        <h2>Upload Barang</h2>
+        <form id="uploadForm" action="" method="POST">
+          <table>
+            <tr>
+              <td>Nama barang:</td>
+              <td><input type="text" id="nama_barang" /></td>
+            </tr>
+            <tr>
+              <td>Harga:</td>
+              <td><input type="text" id="harga" /></td>
+            </tr>
+            <tr>
+              <td>Deskripsi produk:</td>
+              <td><input type="text" id="deskripsi_produk" /></td>
+            </tr>
+            <tr>
+              <td>Foto barang:</td>
+              <td>
+                <input
+                  type="file"
+                  id="foto_barang"
+                  accept="image/jpeg, image/png, image/jpg"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <input type="submit" id="simpan" value="Simpan" />
+                <a href="#" onclick="openCard()"></a>
+                <input type="reset" value="Reset" />
+              </td>
+            </tr>
+          </table>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      function openCard() {
+        var card = document.querySelector(".card");
+        card.style.display = "block";
+      }
+    </script>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        set,
+      } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyCa3I4apiXBBEg8lHkOKUZJj5HJqfpqs3c",
+        authDomain: "tambahkanbarang.firebaseapp.com",
+        databaseURL: "https://tambahkanbarang-default-rtdb.firebaseio.com",
+        projectId: "tambahkanbarang",
+        storageBucket: "tambahkanbarang.appspot.com",
+        messagingSenderId: "349178081242",
+        appId: "1:349178081242:web:5fb7c93d0313288b5b1ae3",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+
+      // Get ref to database services
+      const db = getDatabase(app);
+
+      document
+        .getElementById("uploadForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          set(
+            ref(
+              db,
+              "NamaBarang/" + document.getElementById("nama_barang").value
+            ),
+            {
+              NamaBarang: document.getElementById("nama_barang").value,
+              Harga: document.getElementById("harga").value,
+              DeskripsiProduk:
+                document.getElementById("deskripsi_produk").value,
+              FotoBarang: document.getElementById("foto_barang").value,
+            }
+          )
+            .then(() => {
+              alert("Berhasil disimpan!");
+            })
+            .catch((error) => {
+              console.error("Gagal menyimpan:", error);
+              alert("Gagal menyimpan data. Silakan coba lagi.");
+            });
+        });
+    </script>
+  </body>
+</html>
